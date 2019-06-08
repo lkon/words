@@ -1,0 +1,1 @@
+const translate = (word) => `https://translate.yandex.net/api/v1.5/tr.json/translate?lang=en&key=trnsl.1.1.20190215T132151Z.3dd68c597161ae19.9ed2e29de608aa092a2e8f933881b2410f2530d3&text=encodeURI(${word})`;
