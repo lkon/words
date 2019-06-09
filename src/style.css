@@ -1,4 +1,4 @@
-body{
+body {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
 }
@@ -6,19 +6,44 @@ body{
 section {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
+    align-content: center;
+    justify-content: center;
 }
 
+
 a {
+    position: relative;
     padding: 1em;
     text-align: center;
     border: .5px solid #78909c59;
     user-select: none;
 }
-.tip {
+
+.word {
     position: absolute;
-    padding: 1em;
-    color: #78909C;
-    background-color: #fff;
-    border-radius: 3px;
-    box-shadow: 1px 1px 2px 0 #78909c59;
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 100%;
+    text-align: center;
+    color: #78909c;
+
+    transition: opacity .3s linear;
+}
+
+.translation {
+    color: #000;
+    opacity: 0;
+
+    transition: opacity .3s linear;
+}
+
+a.translate .word {
+    opacity: 0;
+    transition: opacity .3s linear;
+}
+
+a.translate .translation {
+    opacity: 1;
+    transition: opacity .3s linear;
 }

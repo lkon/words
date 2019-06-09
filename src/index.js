@@ -1,31 +1,56 @@
-import createWord from './create-word.js';
-import data from '../lib/page_11.js';
+import getWord from './get-word.js';
 
 const
     section = document.querySelector('section'),
-    startBtn = document.querySelector('#start'),
-    playBtn = document.querySelector('#play'),
-    stopBtn = document.querySelector('#stop'),
-    clearBtn = document.querySelector('#clear');
 
-const
-    allWords = Object.entries(data).map(([w, d]) => createWord(w, d, section)),
-    collection = allWords.length;
+    wordsBtns = document.querySelectorAll('.js-words'),
+    startBtn = document.querySelector('.js-start'),
+    playBtn = document.querySelector('.js-play'),
+    stopBtn = document.querySelector('.js-stop'),
+    clearBtn = document.querySelector('.js-clear'),
+    allWords =  [];
 
-let index = 0;
+let collection, index = 0;
+
+
+wordsBtns.forEach(btn => btn.onclick = (ev) => {
+
+    import(`../lib/11/${ev.target.title}.js`)
+
+        .then((module) => {
+            const data = module.default;
+
+            Object.entries(data)
+                .map(([w, d]) =>
+                    getWord(w, d, section)
+                        .then(function ({link, translation}) {
+                            if (!d.length) {
+                                data[w] = translation;
+                                console.log(data);
+                            }
+                            allWords[allWords.length] = link;
+                        })
+                );
+        });
+})
 
 startBtn.onclick = () => {
+    collection = allWords.length;
+
     const intervalID = setInterval(function () {
         if (index === collection) clearInterval(intervalID);
         const current = allWords[index];
         current && current.click();
         index++;
-    }, 1000);
+    }, 2000);
 };
+
 
 playBtn.onclick = () => {
     Object.entries(data).forEach(([w, d]) => window.responsiveVoice.speak(w, 'Greek Female'));
-};
+}
+
+
 stopBtn.onclick = () => {
     index = collection;
     window.responsiveVoice.cancel();
