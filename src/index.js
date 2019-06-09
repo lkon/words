@@ -11,7 +11,9 @@ const
     allWords =  [];
 
 let collection, index = 0;
-
+if(responsiveVoice.voiceSupport()) {
+    responsiveVoice.speak("hello world");
+}
 
 wordsBtns.forEach(btn => btn.onclick = (ev) => {
 
@@ -42,7 +44,7 @@ startBtn.onclick = () => {
         const current = allWords[index];
         current && current.click();
         index++;
-    }, 2000);
+    }, 1000);
 };
 
 
