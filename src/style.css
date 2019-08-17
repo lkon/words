@@ -19,7 +19,8 @@ a {
     user-select: none;
 }
 
-.word {
+.word,
+.translation{
     position: absolute;
     left: 0;
     top: 50%;
@@ -27,23 +28,20 @@ a {
     width: 100%;
     text-align: center;
     color: #78909c;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     transition: opacity .3s linear;
 }
 
 .translation {
-    color: #000;
     opacity: 0;
-
-    transition: opacity .3s linear;
 }
 
 a.translate .word {
     opacity: 0;
-    transition: opacity .3s linear;
 }
 
 a.translate .translation {
     opacity: 1;
-    transition: opacity .3s linear;
 }

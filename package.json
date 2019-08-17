@@ -1,0 +1,16 @@
+{
+  "name": "words",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/lkon/words.git",
+  "author": "Konina Elena <e.konina@roboforex.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "flow-bin": "^0.105.2",
+    "flow-remove-types": "^2.105.2"
+  },
+  "scripts": {
+    "build": "flow-remove-types src/ -d dist/",
+    "prepublish": "yarn run build"
+  }
+}

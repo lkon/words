@@ -1,40 +1,53 @@
+// @flow
+
 import getWord from './get-word.js';
 
 const
-    section = document.querySelector('section'),
+    parentBlock: HTMLElement = document.querySelectorAll('section')[0],
 
     wordsBtns = document.querySelectorAll('.js-words'),
-    startBtn = document.querySelector('.js-start'),
-    playBtn = document.querySelector('.js-play'),
-    stopBtn = document.querySelector('.js-stop'),
-    clearBtn = document.querySelector('.js-clear'),
-    allWords =  [];
+    startBtn = document.querySelectorAll('.js-start')[0],
+    playBtn = document.querySelectorAll('.js-play')[0],
+    stopBtn = document.querySelectorAll('.js-stop')[0],
+    clearBtn = document.querySelectorAll('.js-clear')[0],
+    allWords = [];
 
 let collection, index = 0;
-if(responsiveVoice.voiceSupport()) {
-    responsiveVoice.speak("hello world");
+
+interface ISectionItem {
+    [key: string]: string
 }
 
 wordsBtns.forEach(btn => btn.onclick = (ev) => {
 
-    import(`../lib/11/${ev.target.title}.js`)
+    import(`../lib/lesson2/${ev.target.title}.js`)
 
         .then((module) => {
-            const data = module.default;
+            const sections = module.default;
 
-            Object.entries(data)
-                .map(([w, d]) =>
-                    getWord(w, d, section)
-                        .then(function ({link, translation}) {
-                            if (!d.length) {
-                                data[w] = translation;
-                                console.log(data);
-                            }
-                            allWords[allWords.length] = link;
-                        })
-                );
+            sections.forEach((section: [], i: number) => {
+
+                section.forEach((item: ISectionItem, y: number) => {
+
+                    Object.entries(item)
+                        .map(([w, d]) => getWord(ev.target.title, w, d)
+                            .then(function ({ link, translation }) {
+
+                                parentBlock.appendChild(link);
+
+                                if (typeof d === 'string' && !d.length) {
+                                    item[w] = translation;
+                                }
+
+                                allWords[allWords.length] = link;
+                            })
+                        );
+                });
+            });
+
+            console.dir(JSON.stringify(sections));
         });
-})
+});
 
 startBtn.onclick = () => {
     collection = allWords.length;
@@ -44,13 +57,13 @@ startBtn.onclick = () => {
         const current = allWords[index];
         current && current.click();
         index++;
-    }, 1000);
+    }, 1500);
 };
 
 
 playBtn.onclick = () => {
-    Object.entries(data).forEach(([w, d]) => window.responsiveVoice.speak(w, 'Greek Female'));
-}
+    Object.entries(collection).forEach(([w, d]) => window.responsiveVoice.speak(w, 'Greek Female'));
+};
 
 
 stopBtn.onclick = () => {
@@ -61,10 +74,5 @@ clearBtn.onclick = () => {
     allWords.forEach(w => w.style.cssText = '');
     document.querySelectorAll('.tip').forEach(tip => tip.remove());
 };
-
-
-
-
-
 
 
